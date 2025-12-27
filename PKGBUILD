@@ -1,7 +1,4 @@
-# Maintainer: Levente Polyak <anthraxx[at]archlinux[dot]org>
-# Contributor: Daniel Micay <danielmicay@gmail.com>
-# Contributor: Tobias Powalowski <tpowa@archlinux.org>
-# Contributor: Thomas Baechler <thomas@archlinux.org>
+# Maintainer: Nora de Fitero Teijeira <nora@defitero.com>
 
 pkgbase=linux-hardened
 pkgver=6.17.11.hardened1

@@ -17,10 +17,16 @@ The changes mainly consist of:
 - Removed functions and device support that are obsolete or would only be used in very specific cases
 
 ## Usage
-This configuration is made for the Arch Linux compilation tool.
+This configuration is made for the Arch Linux compilation tool. More information: [https://wiki.archlinux.org/title/Kernel/Arch_build_system](https://wiki.archlinux.org/title/Kernel/Arch_build_system)
 
 ``` bash
 makepkg -s
+```
+
+Inside linux folder:
+
+``` bash
+pacman -U linux*.pkg.tar.zst
 ```
 
 ## Got any suggestions?
