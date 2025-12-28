@@ -46,15 +46,15 @@ validpgpkeys=(
 )
 # https://www.kernel.org/pub/linux/kernel/v6.x/sha256sums.asc
 sha256sums=('934b18af0125f114907bad482d7c5a97d58038970b9dce6162318e920caf257e'
-            'SKIP'
-            'c37acd04ba8a7c87b1b4b32dadcbcda26734614804f770e896f48ff1d024cfab'
-            'SKIP'
-            'd8fe80f1449745701ca0f150d81044e388bbd3237c2a417713e897aeae1855e7')
+  'SKIP'
+  'c37acd04ba8a7c87b1b4b32dadcbcda26734614804f770e896f48ff1d024cfab'
+  'SKIP'
+  '9a710eda1905fad461f4b7bc72755d074ac73b2cd89438c5f4b538d87815ad03')
 b2sums=('0ddb7b23343893f845ae2893cdc791b945f2a69a913faa1196d449067cee08c958106ab58079aed008f4b6c62eda9f55131e17f0ee836c60e2ff75eca66e767e'
-        'SKIP'
-        'c05f6d3a264b05146d560c17f772c74448fea1122cf9d28a1461aa22438dd57248dd3e8c07dd36c991b42461123bad3174f197f406bae71891a8f2c4a3d8e08e'
-        'SKIP'
-        'd9ab66b705cafb1e7f88247d17e5793d332d0c7eb5a7b75306e6a74f41cda557fe8e890296c8407306026f1adfc8231377a3e606a030ed0ba303b94c3bb4b7de')
+  'SKIP'
+  'c05f6d3a264b05146d560c17f772c74448fea1122cf9d28a1461aa22438dd57248dd3e8c07dd36c991b42461123bad3174f197f406bae71891a8f2c4a3d8e08e'
+  'SKIP'
+  'f7be830e4e983b63310266346cf123fb5402481f97455dab8399ca604b83edaa7588ab778b612a5164d08fb07da6146cbec9c6fadd5cd9cd85e0f2774ed8b3d7')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
@@ -91,11 +91,11 @@ build() {
   cd $_srcname
 
   #  make htmldocs &
-  local pid_docs=$!
+  # local pid_docs=$!
 
   make all
-  make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
-  wait "${pid_docs}"
+  # make -C tools/bpf/bpftool vmlinux.h feature-clang-bpf-co-re=1
+  # wait "${pid_docs}"
 }
 
 _package() {
@@ -148,7 +148,8 @@ _package-headers() {
 
   echo "Installing build files..."
   install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
-    localversion.* version vmlinux tools/bpf/bpftool/vmlinux.h
+    localversion.* version
+  #vmlinux tools/bpf/bpftool/vmlinux.h
   install -Dt "$builddir/kernel" -m644 kernel/Makefile
   install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
   cp -t "$builddir" -a scripts
@@ -158,7 +159,7 @@ _package-headers() {
   install -Dt "$builddir/tools/objtool" tools/objtool/objtool
 
   # required when DEBUG_INFO_BTF_MODULES is enabled
-  install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
+  #install -Dt "$builddir/tools/bpf/resolve_btfids" tools/bpf/resolve_btfids/resolve_btfids
 
   echo "Installing headers..."
   cp -t "$builddir" -a include
@@ -182,9 +183,9 @@ _package-headers() {
   echo "Installing KConfig files..."
   find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
 
-  echo "Installing Rust files..."
-  install -Dt "$builddir/rust" -m644 rust/*.rmeta
-  install -Dt "$builddir/rust" rust/*.so
+  # echo "Installing Rust files..."
+  # install -Dt "$builddir/rust" -m644 rust/*.rmeta
+  # install -Dt "$builddir/rust" rust/*.so
 
   echo "Installing unstripped VDSO..."
   make INSTALL_MOD_PATH="$pkgdir/usr" vdso_install \
@@ -222,8 +223,8 @@ _package-headers() {
     esac
   done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
 
-  echo "Stripping vmlinux..."
-  strip -v $STRIP_STATIC "$builddir/vmlinux"
+  # echo "Stripping vmlinux..."
+  # strip -v $STRIP_STATIC "$builddir/vmlinux"
 
   echo "Adding symlink..."
   mkdir -p "$pkgdir/usr/src"
